@@ -1,23 +1,22 @@
-Install terraform in codespaces
 
-```
-curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt-get update && sudo apt-get install terraform
-```
+# How to Deploy AWS Infra First
+terraform apply -target module.aws -var boundary_bin=/Users/sebbycorp/Documents/Projects/project-hashicorp/boundary/boundary-env/terraform/files/
 
-AKIAY7JTXIQUCVQU3Z7W
-JUORHq25aiNYdDcO3Lo+1GmnfXmEi2nCvN7aXgBA
+# Configure Vault
+When you configured vault edit the boundary settings to include vault injection
+
+# Deploy Boundary
+terraform apply -target module.boundary 
 
 
-1. Postgres & MySQL
+# How to log into you boundary
+export BOUNDARY_ADDR="http://boundary-test-controller-beagle-a24bbd1674492edf.elb.us-east-1.amazonaws.com:9200"
 
-```
-docker run --rm -d \
-    -e POSTGRES_PASSWORD=secret \
-    -e POSTGRES_DB="boundarydemo" \
-    --name  boundarydemo\
-    -p 5432:5432 \
-    -v postgres-tmp:/Users/Shared/data-for-boundary-demo \
-    postgres:12-alpine
-```
+# How to authenticate
+boundary authenticate password \
+         -login-name=admin \
+         -password foofoofoo \
+         -auth-method-id=ampw_SlBXXjNpWp
+
+
+# Note
